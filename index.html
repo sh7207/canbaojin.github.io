@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全国残保金计算器 | 含南京特殊政策</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a3b70, #2c5a8a);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            color: white;
+            animation: fadeInDown 1s ease;
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            background: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: #1a3b70;
+        }
+        
+        .calculator-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .calculator-card {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 30px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .info-card {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 30px;
+            animation: fadeInUp 1.2s ease;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: #1a3b70;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            background: #1a3b70;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: #1a3b70;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 59, 112, 0.1);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+        }
+        
+        .btn-calculate {
+            background: linear-gradient(to right, #1a3b70, #2c5a8a);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 10px;
+        }
+        
+        .btn-calculate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .result-container {
+            background: #f0f7ff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 25px;
+            border-left: 5px solid #1a3b70;
+            display: none;
+        }
+        
+        .result-header {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #1a3b70;
+        }
+        
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #c23a3a;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .result-details {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .result-row:last-child {
+            border-bottom: none;
+        }
+        
+        .policy-list {
+            list-style-type: none;
+        }
+        
+        .policy-list li {
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        
+        .policy-list li i {
+            color: #1a3b70;
+            font-size: 1.2rem;
+            min-width: 24px;
+            padding-top: 3px;
+        }
+        
+        .faq-item {
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .faq-question {
+            padding: 15px 20px;
+            background: #f0f7ff;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-answer {
+            padding: 15px 20px;
+            display: none;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 30px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .highlight {
+            background: linear-gradient(to right, #ffeb3b, #ffc107);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .policy-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .policy-table th, .policy-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .policy-table th {
+            background-color: #1a3b70;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .policy-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .policy-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .expiration-notice {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .expiration-notice i {
+            color: #ff9800;
+            font-size: 1.5rem;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .calculator-container {
+                flex-direction: column;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .result-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div class="logo">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <div class="logo">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+            </div>
+            <h1>全国残保金计算器</h1>
+            <p>含南京特殊分档征收政策（截止2027年12月31日）</p>
+        </header>
+        
+        <div class="calculator-container">
+            <div class="calculator-card">
+                <h2 class="section-title"><i class="fas fa-edit"></i> 计算参数</h2>
+                
+                <div class="input-group">
+                    <label for="employees">上年用人单位在职职工人数（人）</label>
+                    <input type="number" id="employees" min="1" value="100">
+                </div>
+                
+                <div class="input-group">
+                    <label for="avg-salary">上年用人单位在职职工年平均工资（元）</label>
+                    <input type="number" id="avg-salary" min="1" value="80000">
+                </div>
+                
+                <div class="input-group">
+                    <label for="disabled">上年用人单位实际安排的残疾人就业人数（人）</label>
+                    <input type="number" id="disabled" min="0" value="1.5" step="0.1">
+                    <small style="display:block; margin-top:5px; color:#666">提示：可输入小数（如0.5表示雇佣残疾人半年）</small>
+                </div>
+                
+                <div class="input-group">
+                    <label for="region">所在地区</label>
+                    <select id="region">
+                        <option value="0.015">北京市 (1.5%)</option>
+                        <option value="0.015">上海市 (1.5%)</option>
+                        <option value="0.015">天津市 (1.5%)</option>
+                        <option value="0.015">重庆市 (1.5%)</option>
+                        <option value="0.015">河北省 (1.5%)</option>
+                        <option value="0.016">河南省 (1.6%)</option>
+                        <option value="0.015">湖北省 (1.5%)</option>
+                        <option value="0.015">广东省 (1.5%)</option>
+                        <option value="0.015">贵州省 (1.5%)</option>
+                        <option value="0.020">新疆 (2.0%)</option>
+                        <option value="0.015">黑龙江省 (1.5%)</option>
+                        <option value="0.015">湖南省 (1.5%)</option>
+                        <option value="0.015">广西 (1.5%)</option>
+                        <option value="0.015">云南省 (1.5%)</option>
+                        <option value="0.015">宁夏 (1.5%)</option>
+                        <option value="0.016">吉林省 (1.6%)</option>
+                        <option value="0.017">辽宁省 (1.7%)</option>
+                        <option value="0.015">山东省 (1.5%)</option>
+                        <option value="0.015" selected>江苏省 (1.5%)</option>
+                        <option value="0.015">浙江省 (1.5%)</option>
+                        <option value="0.015">陕西省 (1.5%)</option>
+                        <option value="0.015">西藏 (1.5%)</option>
+                        <option value="0.015">内蒙古 (1.5%)</option>
+                        <option value="0.015">山西省 (1.5%)</option>
+                        <option value="0.015">安徽省 (1.5%)</option>
+                        <option value="0.015">甘肃省 (1.5%)</option>
+                        <option value="0.015">青海省 (1.5%)</option>
+                        <option value="0.016">四川省 (1.6%)</option>
+                        <option value="0.016">福建省 (1.6%)</option>
+                        <option value="0.005">深圳市 (本地0.5%)</option>
+                        <option value="0.015">深圳市 (非本地1.5%)</option>
+                        <option value="0.008">厦门市 (本地0.8%)</option>
+                        <option value="0.015">厦门市 (非本地1.5%)</option>
+                    </select>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="small-enterprise">
+                    <label for="small-enterprise">我单位属于小微企业（职工≤30人）</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="nanjing">
+                    <label for="nanjing">我单位位于南京（适用特殊政策）</label>
+                </div>
+                
+                <button class="btn-calculate" id="calculate-btn">
+                    <i class="fas fa-calculator"></i> 计算残保金
+                </button>
+                
+                <div class="result-container" id="result">
+                    <h3 class="result-header">计算结果</h3>
+                    <p>贵单位应缴纳残疾人就业保障金：</p>
+                    <div class="result-value" id="result-value">0.00 元</div>
+                    
+                    <div class="result-details">
+                        <div class="result-row">
+                            <span>应安排残疾人数：</span>
+                            <span id="required-disabled">1.50 人</span>
+                        </div>
+                        <div class="result-row">
+                            <span>实际安排残疾人数：</span>
+                            <span id="actual-disabled">1.50 人</span>
+                        </div>
+                        <div class="result-row">
+                            <span>安置比例：</span>
+                            <span id="ratio">1.50%</span>
+                        </div>
+                        <div class="result-row">
+                            <span>职工年平均工资：</span>
+                            <span id="salary-display">80,000 元</span>
+                        </div>
+                        <div class="result-row">
+                            <span>征收政策：</span>
+                            <span id="policy-type">全国通用政策</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <h2 class="section-title"><i class="fas fa-info-circle"></i> 政策说明</h2>
+                
+                <ul class="policy-list">
+                    <li>
+                        <i class="fas fa-clipboard-check"></i>
+                        <div>
+                            <strong>残保金计算公式</strong><br>
+                            残保金 = (上年用人单位在职职工人数 × 安置比例 - 实际安排的残疾人就业人数) × 上年用人单位在职职工年平均工资
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>
+                            <strong>小微企业优惠</strong><br>
+                            职工人数在30人(含)以下的企业，<span class="highlight">暂免征收</span>残保金
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-percentage"></i>
+                        <div>
+                            <strong>全国安置比例</strong><br>
+                            各省安置比例不同（北京1.5%、河南1.6%、新疆2.0%等）
+                        </div>
+                    </li>
+                </ul>
+                
+                <h2 class="section-title"><i class="fas fa-city"></i> 南京特殊政策</h2>
+                
+                <div class="expiration-notice">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <div>
+                        <strong>政策有效期：</strong>此特殊分档征收政策执行至2027年12月31日
+                    </div>
+                </div>
+                
+                <p>根据《江苏省政府关于切实减轻企业负担的意见》(苏政发(2017〕114号)规定：</p>
+                
+                <table class="policy-table">
+                    <thead>
+                        <tr>
+                            <th>职工人数范围</th>
+                            <th>征收比例</th>
+                            <th>实际征收率</th>
+                            <th>计算说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1-500人部分</td>
+                            <td>100%</td>
+                            <td>40%</td>
+                            <td>按征收比例的100%征收</td>
+                        </tr>
+                        <tr>
+                            <td>501-1000人部分</td>
+                            <td>40%</td>
+                            <td>16%</td>
+                            <td>按征收比例的40%征收</td>
+                        </tr>
+                        <tr>
+                            <td>1001-5000人部分</td>
+                            <td>20%</td>
+                            <td>8%</td>
+                            <td>按征收比例的20%征收</td>
+                        </tr>
+                        <tr>
+                            <td>5001人以上部分</td>
+                            <td>10%</td>
+                            <td>4%</td>
+                            <td>按征收比例的10%征收</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="policy-list">
+                    <li>
+                        <i class="fas fa-star"></i>
+                        <div>
+                            <strong>政策要点</strong><br>
+                            1. 分档征收政策有效期至2027年12月31日<br>
+                            2. 征收基数按企业职工人数分档计算<br>
+                            3. 基础征收比例为40%<br>
+                            4. 小微企业(≤30人)仍享受免征政策
+                        </div>
+                    </li>
+                </div>
+                
+                <h2 class="section-title" style="margin-top: 30px;"><i class="fas fa-question-circle"></i> 常见问题</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        南京特殊政策什么时候到期？
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        南京特殊分档征收政策有效期至2027年12月31日。
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        深圳和厦门为什么有两个比例？
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        深圳和厦门对本地企业和非本地企业实行不同的安置比例：<br>
+                        - 深圳：本地企业0.5%，非本地企业1.5%<br>
+                        - 厦门：本地企业0.8%，非本地企业1.5%
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        小微企业是否享受特殊政策？
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        小微企业(≤30人)享受免征政策，不适用特殊分档征收政策。
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>注：本计算器结果仅供参考，实际缴纳金额以当地税务部门核定为准</p>
+            <p>© 2023 全国残保金计算器 | 数据依据《残疾人就业保障金征收使用管理办法》及地方政策</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calculateBtn = document.getElementById('calculate-btn');
+            const resultContainer = document.getElementById('result');
+            const resultValue = document.getElementById('result-value');
+            const requiredDisabled = document.getElementById('required-disabled');
+            const actualDisabled = document.getElementById('actual-disabled');
+            const ratioDisplay = document.getElementById('ratio');
+            const salaryDisplay = document.getElementById('salary-display');
+            const policyTypeDisplay = document.getElementById('policy-type');
+            const smallEnterpriseCheckbox = document.getElementById('small-enterprise');
+            const nanjingCheckbox = document.getElementById('nanjing');
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            // 初始化计算
+            calculate();
+            
+            // 绑定计算按钮事件
+            calculateBtn.addEventListener('click', calculate);
+            
+            // 绑定输入变化事件
+            document.querySelectorAll('input, select').forEach(input => {
+                input.addEventListener('input', calculate);
+            });
+            
+            smallEnterpriseCheckbox.addEventListener('change', calculate);
+            nanjingCheckbox.addEventListener('change', calculate);
+            
+            // 绑定FAQ展开/折叠
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const answer = this.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    if (answer.style.display === 'block') {
+                        answer.style.display = 'none';
+                        icon.className = 'fas fa-chevron-down';
+                    } else {
+                        answer.style.display = 'block';
+                        icon.className = 'fas fa-chevron-up';
+                    }
+                });
+            });
+            
+            // 南京特殊分档计算函数
+            function calculateNanjing(employees, avgSalary, disabled) {
+                const baseRatio = 0.015; // 南京安置比例1.5%
+                const required = employees * baseRatio;
+                const deficit = Math.max(required - disabled, 0);
+                
+                // 分档征收比例计算
+                let totalRate = 0;
+                
+                if (employees <= 500) {
+                    totalRate = 0.4; // 40%
+                } else {
+                    // 计算各档征收金额
+                    const tier1 = Math.min(employees, 500) * 0.4;
+                    const tier2 = employees > 500 ? Math.min(employees - 500, 500) * 0.16 : 0;
+                    const tier3 = employees > 1000 ? Math.min(employees - 1000, 4000) * 0.08 : 0;
+                    const tier4 = employees > 5000 ? (employees - 5000) * 0.04 : 0;
+                    
+                    // 计算平均征收率
+                    totalRate = (tier1 + tier2 + tier3 + tier4) / employees;
+                }
+                
+                return deficit * avgSalary * totalRate;
+            }
+            
+            function calculate() {
+                // 获取输入值
+                const employees = parseInt(document.getElementById('employees').value) || 0;
+                const avgSalary = parseInt(document.getElementById('avg-salary').value) || 0;
+                const disabled = parseFloat(document.getElementById('disabled').value) || 0;
+                const region = document.getElementById('region').value;
+                const regionName = document.getElementById('region').options[document.getElementById('region').selectedIndex].text;
+                const isSmallEnterprise = smallEnterpriseCheckbox.checked;
+                const isNanjing = nanjingCheckbox.checked;
+                const ratio = parseFloat(region);
+                
+                // 计算应安排残疾人数
+                const requiredDisabledCount = employees * ratio;
+                
+                // 计算残保金
+                let amount = 0;
+                let policyType = "全国通用政策";
+                
+                if (isSmallEnterprise && employees <= 30) {
+                    // 小微企业免征
+                    amount = 0;
+                    policyType = "小微企业免征政策";
+                } else if (isNanjing) {
+                    // 南京特殊政策
+                    amount = calculateNanjing(employees, avgSalary, disabled);
+                    policyType = "南京特殊分档征收政策";
+                } else {
+                    // 基本计算公式
+                    amount = (requiredDisabledCount - disabled) * avgSalary;
+                    
+                    // 确保金额不为负
+                    if (amount < 0) amount = 0;
+                    
+                    // 应用分档征收优惠政策
+                    const actualRatio = disabled / employees;
+                    if (actualRatio >= ratio * 0.01 && actualRatio < ratio) {
+                        // 1%以上但低于规定比例，按50%征收
+                        amount *= 0.5;
+                        policyType = "分档征收政策（50%）";
+                    } else if (actualRatio < ratio * 0.01) {
+                        // 1%以下，按90%征收
+                        amount *= 0.9;
+                        policyType = "分档征收政策（90%）";
+                    }
+                }
+                
+                // 更新结果显示
+                resultContainer.style.display = 'block';
+                resultValue.textContent = amount.toLocaleString('zh-CN', {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 2
+                }) + ' 元';
+                
+                // 更新详细数据
+                requiredDisabled.textContent = requiredDisabledCount.toFixed(2) + ' 人';
+                actualDisabled.textContent = disabled.toFixed(2) + ' 人';
+                ratioDisplay.textContent = (ratio * 100).toFixed(1) + '%';
+                salaryDisplay.textContent = avgSalary.toLocaleString('zh-CN') + ' 元';
+                policyTypeDisplay.textContent = policyType;
+            }
+        });
+    </script>
+</body>
+</html>
