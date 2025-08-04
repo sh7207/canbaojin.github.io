@@ -19,6 +19,7 @@
             line-height: 1.6;
             padding: 20px;
             min-height: 100vh;
+            position: relative;
         }
         
         .container {
@@ -322,6 +323,70 @@
             font-size: 1.5rem;
         }
         
+        /* 联系信息样式 */
+        .contact-info {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid #1a3b70;
+            max-width: 320px;
+            z-index: 100;
+            animation: slideInLeft 0.8s ease;
+        }
+        
+        .contact-info h4 {
+            color: #1a3b70;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .contact-info p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
+        
+        .contact-info .company-name {
+            font-weight: 700;
+            color: #1a3b70;
+            font-size: 1.05rem;
+            margin: 8px 0;
+        }
+        
+        .contact-info .phone {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.05rem;
+            margin: 10px 0;
+            color: #1a3b70;
+        }
+        
+        .contact-info .services {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #ccc;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -355,6 +420,15 @@
             
             .result-value {
                 font-size: 2rem;
+            }
+            
+            .contact-info {
+                position: relative;
+                left: 0;
+                bottom: 0;
+                max-width: 100%;
+                margin-top: 30px;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             }
         }
     </style>
@@ -607,6 +681,19 @@
         <div class="footer">
             <p>注：本计算器结果仅供参考，实际缴纳金额以当地税务部门核定为准</p>
             <p>© 2023 全国残保金计算器 | 数据依据《残疾人就业保障金征收使用管理办法》及地方政策</p>
+        </div>
+    </div>
+
+    <!-- 左下角联系信息 -->
+    <div class="contact-info">
+        <h4><i class="fas fa-headset"></i> 如有问题请联系我们</h4>
+        <p class="company-name">中鑫智合（陕西）财税咨询有限公司</p>
+        <div class="phone">
+            <i class="fas fa-phone-alt"></i> 15829094530
+        </div>
+        <div class="services">
+            <strong>主要服务：</strong><br>
+            残保金优化、残疾人安置推荐、财税咨询、财务尽调、研发费用加计扣除备查账、重点人群退税...
         </div>
     </div>
 
